@@ -59,8 +59,18 @@ namespace Microsoft.EntityFrameworkCore.Storage.Internal
         {
             using (var masterConnection = _connection.CreateMasterConnection())
             {
-                Dependencies.MigrationCommandExecutor
-                    .ExecuteNonQuery(CreateCreateOperations(), masterConnection);
+                try
+                {
+                    Dependencies.MigrationCommandExecutor
+                        .ExecuteNonQuery(CreateCreateOperations(), masterConnection);
+                }
+                catch (PostgresException e) when (
+                    e.SqlState == "23505" && e.ConstraintName == "pg_database_datname_index"
+                )
+                {
+                    // This occurs when two connections are trying to create the same database concurrently
+                    // (happens in the tests). Simply ignore the error.
+                }
 
                 ClearPool();
             }
@@ -70,8 +80,18 @@ namespace Microsoft.EntityFrameworkCore.Storage.Internal
         {
             using (var masterConnection = _connection.CreateMasterConnection())
             {
-                await Dependencies.MigrationCommandExecutor
-                    .ExecuteNonQueryAsync(CreateCreateOperations(), masterConnection, cancellationToken);
+                try
+                {
+                    await Dependencies.MigrationCommandExecutor
+                        .ExecuteNonQueryAsync(CreateCreateOperations(), masterConnection, cancellationToken);
+                }
+                catch (PostgresException e) when (
+                    e.SqlState == "23505" && e.ConstraintName == "pg_database_datname_index"
+                )
+                {
+                    // This occurs when two connections are trying to create the same database concurrently
+                    // (happens in the tests). Simply ignore the error.
+                }
 
                 ClearPool();
             }
