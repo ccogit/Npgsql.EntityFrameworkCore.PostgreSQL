@@ -19,12 +19,6 @@ script:
   - dotnet test "test/EFCore.PG.Tests/EFCore.PG.Tests.csproj" -c Debug -f netcoreapp2.0
   - dotnet test "test/EFCore.PG.FunctionalTests/EFCore.PG.FunctionalTests.csproj" -c Debug -f netcoreapp2.0
   - dotnet test "test/EFCore.PG.Design.FunctionalTests/EFCore.PG.Design.FunctionalTests.csproj" -c Debug -f netcoreapp2.0
-#  - dotnet build "test/EFCore.PG.Tests" -c Debug -f netcoreapp2.0
-#  - dotnet build "test/EFCore.PG.FunctionalTests" -c Debug -f netcoreapp2.0
-#  - dotnet build "test/EFCore.PG.Design.FunctionalTests" -c Debug -f netcoreapp2.0
-#  - dotnet test "test/EFCore.PG.Tests/EFCore.PG.Tests.csproj" --no-build -c Debug -f netcoreapp2.0
-#  - dotnet test "test/EFCore.PG.FunctionalTests/EFCore.PG.FunctionalTests.csproj" --no-build -c Debug -f netcoreapp2.0
-#  - dotnet test "test/EFCore.PG.Design.FunctionalTests/EFCore.PG.Design.FunctionalTests.csproj" --no-build -c Debug -f netcoreapp2.0
 
 cache:
   directories:
